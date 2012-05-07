@@ -6,15 +6,17 @@ module Jackal
                     (?<basename>.*).markdown/x
 
     def initialize(page)
-      @data = page.source_file.match(FILE_PATTERN)
+      @file_info = page.source_file.match(FILE_PATTERN)
+      @metadata  = page.metadata
     end
 
     def dirname
-      "#{data[:year]}/#{data[:month]}/#{data[:day]}"
+      [ metadata[:category], 
+        file_info[:year], file_info[:month], file_info[:day] ].join("/")
     end
 
     def filename
-      "#{data[:basename]}.html"
+      "#{file_info[:basename]}.html"
     end
 
     def path
@@ -23,6 +25,6 @@ module Jackal
 
     private
 
-    attr_reader :data
+    attr_reader :file_info, :metadata
   end
 end

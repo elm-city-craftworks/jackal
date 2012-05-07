@@ -1,3 +1,7 @@
+require "pathname"
+
+require "redcarpet"
+
 require_relative "page"
 
 module Jackal
@@ -5,26 +9,38 @@ module Jackal
     FILE_PATTERN = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})-
                     (?<basename>.*).markdown/x
 
-    def initialize(page)
-      @file_info = page.source_file.match(FILE_PATTERN)
-      @metadata  = page.metadata
+    MARKDOWN_CONVERTER = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
+
+    def initialize(page, converter=MARKDOWN_CONVERTER)
+      @filedata = page.filename.match(FILE_PATTERN)
+      @metadata = page.metadata
+      @contents = converter.render(page.contents)
     end
+
+    attr_reader :contents
 
     def dirname
       [ metadata[:category], 
-        file_info[:year], file_info[:month], file_info[:day] ].join("/")
+        filedata[:year], filedata[:month], filedata[:day] ].join("/")
     end
 
     def filename
-      "#{file_info[:basename]}.html"
+      "#{filedata[:basename]}.html"
     end
 
     def path
       "#{dirname}/#{filename}"
     end
 
+    def save(base_dir)
+      target_dir = Pathname.new(base_dir) + dirname
+      target_dir.mkpath
+
+      File.write(target_dir + filename, contents)
+    end
+
     private
 
-    attr_reader :file_info, :metadata
+    attr_reader :filedata, :metadata
   end
 end

@@ -12,9 +12,9 @@ module Jackal
     MARKDOWN_CONVERTER = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
 
     def initialize(page, converter=MARKDOWN_CONVERTER)
-      @filedata = page.filename.match(FILE_PATTERN)
-      @metadata = page.metadata
-      @contents = converter.render(page.contents)
+      self.filedata = page.filename.match(FILE_PATTERN)
+      self.metadata = page.metadata
+      self.contents = converter.render(page.contents)
     end
 
     attr_reader :contents
@@ -44,6 +44,7 @@ module Jackal
 
     private
 
-    attr_reader :filedata, :metadata
+    attr_accessor :filedata, :metadata
+    attr_writer   :contents
   end
 end

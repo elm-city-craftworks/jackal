@@ -15,7 +15,7 @@ module Jackal
     attr_writer :filename, :metadata, :contents
 
     def read_page(filename)
-      @contents = File.read(filename)
+      self.contents = File.read(filename)
 
       begin
         if (md = contents.match(/^(?<headers>---\s*\n.*?\n?)^(---\s*$\n?)/m))

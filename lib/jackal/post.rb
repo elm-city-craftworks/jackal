@@ -6,8 +6,8 @@ require_relative "page"
 
 module Jackal
   class Post
-    FILE_PATTERN = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})-
-                    (?<basename>.*).markdown/x
+    FILE_PATTERN = /\A(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})-
+                    (?<basename>.*).markdown\z/x
 
     MARKDOWN_CONVERTER = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
 

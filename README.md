@@ -1,4 +1,1 @@
-jackal
-======
-
-Demo application for Practicing Ruby
+# Jackal, A barely functional ripoff of Jekyll

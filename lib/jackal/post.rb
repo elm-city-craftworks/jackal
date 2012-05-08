@@ -20,8 +20,10 @@ module Jackal
     attr_reader :contents
 
     def dirname
-      [ metadata[:category], 
-        filedata[:year], filedata[:month], filedata[:day] ].join("/")
+      raise ArgumentError unless metadata["category"]
+
+      [ metadata["category"], 
+        filedata["year"], filedata["month"], filedata["day"] ].join("/")
     end
 
     def filename
@@ -34,6 +36,7 @@ module Jackal
 
     def save(base_dir)
       target_dir = Pathname.new(base_dir) + dirname
+      
       target_dir.mkpath
 
       File.write(target_dir + filename, contents)

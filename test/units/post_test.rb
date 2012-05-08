@@ -8,7 +8,7 @@ describe Jackal::Post do
   let(:post) do
     page = OpenStruct.new
     page.filename = "2012-05-07-first-post.markdown"
-    page.metadata = { :category => "essays" }
+    page.metadata = { "category" => "essays" }
     page.contents = "Hello *world*"
 
     Jackal::Post.new(page)
